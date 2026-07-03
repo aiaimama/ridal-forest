@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>모여봐요 리달의 숲</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF6E9;
+  --cream-deep:#F1E8D0;
+  --paper:#FFFDF6;
+  --forest:#1F5C3A;
+  --forest-deep:#153F27;
+  --leaf:#5BB35E;
+  --pink:#F2588C;
+  --sky:#4FAEE8;
+  --sun:#F2A93B;
+  --ink:#2C3A2A;
+  --ink-soft:#5C6B57;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Nunito','Gowun Dodum',sans-serif;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+h1,h2,h3,.jua{font-family:'Jua','Nunito',sans-serif; font-weight:400;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+
+/* ---------- background texture ---------- */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background-image:
+    radial-gradient(circle at 8% 15%, rgba(91,179,94,.10) 0, transparent 40%),
+    radial-gradient(circle at 92% 8%, rgba(242,169,59,.12) 0, transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(79,174,232,.10) 0, transparent 38%),
+    radial-gradient(circle at 5% 85%, rgba(242,88,140,.08) 0, transparent 35%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ---------- nav ---------- */
+.navbar{
+  position:sticky; top:0; z-index:50;
+  background:rgba(251,246,233,.92);
+  backdrop-filter:blur(6px);
+  border-bottom:3px solid var(--forest);
+}
+.navbar .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:12px; padding-bottom:12px;
+  gap:16px;
+}
+.brand{
+  font-family:'Jua'; font-size:1.15rem; color:var(--forest-deep);
+  display:flex; align-items:center; gap:8px; white-space:nowrap;
+}
+.brand .leafdot{width:10px;height:10px;border-radius:50%;background:var(--leaf);display:inline-block;}
+.navtabs{
+  display:flex; gap:4px; overflow-x:auto; scrollbar-width:none;
+}
+.navtabs::-webkit-scrollbar{display:none;}
+.navtabs button{
+  font-family:'Nunito'; font-weight:700; font-size:.82rem;
+  border:none; background:transparent; color:var(--ink-soft);
+  padding:8px 12px; border-radius:999px; cursor:pointer;
+  white-space:nowrap; transition:.2s;
+}
+.navtabs button:hover{background:var(--cream-deep); color:var(--forest-deep);}
+.navtabs button.active{background:var(--forest); color:#fff;}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative; z-index:1;
+  padding:72px 0 40px;
+  text-align:center;
+}
+.hero .badge{
+  display:inline-block; font-family:'Nunito'; font-weight:800; font-size:.72rem;
+  letter-spacing:.14em; color:var(--forest);
+  background:rgba(91,179,94,.15); border:1.5px solid var(--leaf);
+  padding:6px 16px; border-radius:999px; margin-bottom:22px;
+}
+.hero h1{
+  font-size:clamp(2.4rem, 6vw, 4.2rem);
+  color:var(--forest-deep);
+  letter-spacing:-.01em;
+  text-shadow: 3px 3px 0 rgba(91,179,94,.18);
+}
+.hero .blocks{
+  display:flex; justify-content:center; gap:8px; margin:18px 0 22px; flex-wrap:wrap;
+}
+.hero .blocks span{
+  font-family:'Jua'; font-size:1.6rem; color:#fff;
+  padding:6px 14px; border-radius:14px;
+  box-shadow:0 5px 0 rgba(0,0,0,.15);
+}
+.b1{background:var(--pink);} .b2{background:var(--sky);} .b3{background:var(--sun);} .b4{background:var(--forest);}
+.hero p.tag{
+  max-width:560px; margin:0 auto; color:var(--ink-soft); font-size:1.02rem;
+}
+
+/* cloud divider */
+.cloud-divider{width:100%; height:46px; display:block; margin-top:36px;}
+
+/* ---------- sections ---------- */
+section{position:relative; z-index:1; padding:54px 0;}
+.section-head{margin-bottom:30px;}
+.eyebrow{
+  font-family:'Nunito'; font-weight:800; font-size:.76rem; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--leaf);
+}
+.section-head h2{font-size:clamp(1.6rem,3.4vw,2.2rem); color:var(--forest-deep); margin-top:4px;}
+
+.card{
+  background:var(--paper);
+  border:2.5px solid var(--forest-deep);
+  border-radius:22px;
+  box-shadow:0 6px 0 rgba(31,92,58,.18);
+  padding:26px 28px;
+}
+
+/* world section */
+.world-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:center;}
+.world-grid .card p{margin-bottom:12px; color:var(--ink);}
+.world-grid .card p:last-child{margin-bottom:0;}
+.island-art{
+  aspect-ratio:1/1; border-radius:50%;
+  background:
+    radial-gradient(circle at 30% 25%, #fff6, transparent 30%),
+    conic-gradient(from 210deg, var(--leaf), var(--sky), var(--sun), var(--pink), var(--leaf));
+  position:relative; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 0 rgba(31,92,58,.15);
+}
+.island-art::after{
+  content:"🏝️"; font-size:4.2rem; filter:drop-shadow(0 4px 3px rgba(0,0,0,.15));
+}
+
+/* role certificate */
+.cert{
+  border:3px dashed var(--forest);
+  border-radius:20px;
+  background:var(--paper);
+  padding:30px 32px;
+  position:relative;
+}
+.cert .seal{
+  position:absolute; top:-18px; right:26px;
+  width:64px; height:64px; border-radius:50%;
+  background:var(--pink); color:#fff; font-family:'Jua';
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  font-size:.72rem; line-height:1.2; box-shadow:0 4px 0 rgba(0,0,0,.15);
+  transform:rotate(8deg);
+}
+.cert h3{color:var(--forest-deep); font-size:1.3rem; margin-bottom:10px;}
+.cert ul{margin-top:12px; padding-left:20px;}
+.cert li{margin-bottom:8px;}
+
+/* system cards */
+.sys-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+.sys-card{
+  border-radius:20px; padding:22px 20px; color:#fff;
+  box-shadow:0 6px 0 rgba(0,0,0,.15);
+}
+.sys-card h3{font-size:1.05rem; margin-bottom:8px; display:flex; align-items:center; gap:8px;}
+.sys-card p{font-size:.92rem; opacity:.96;}
+.sc1{background:linear-gradient(160deg,var(--sun),#e08a1f);}
+.sc2{background:linear-gradient(160deg,var(--sky),#2b7cb8);}
+.sc3{background:linear-gradient(160deg,var(--leaf),#2f8a3d);}
+
+/* activities */
+.act-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:16px;}
+.act-card{
+  background:var(--paper); border-radius:18px; padding:20px 18px;
+  border:2px solid var(--cream-deep);
+  transition:.2s;
+}
+.act-card:hover{transform:translateY(-4px); border-color:var(--leaf); box-shadow:0 8px 0 rgba(91,179,94,.2);}
+.act-card .emo{font-size:1.8rem; margin-bottom:8px; display:block;}
+.act-card h3{font-size:1rem; color:var(--forest-deep); margin-bottom:6px;}
+.act-card p{font-size:.85rem; color:var(--ink-soft);}
+
+/* roadmap timeline */
+.timeline{position:relative; padding-left:44px;}
+.timeline::before{
+  content:""; position:absolute; left:17px; top:6px; bottom:6px; width:4px;
+  background:repeating-linear-gradient(var(--leaf),var(--leaf) 8px, transparent 8px, transparent 14px);
+  border-radius:4px;
+}
+.tl-item{position:relative; margin-bottom:34px;}
+.tl-item:last-child{margin-bottom:0;}
+.tl-item::before{
+  content:attr(data-n);
+  position:absolute; left:-44px; top:0;
+  width:36px; height:36px; border-radius:50%;
+  background:var(--forest); color:#fff; font-family:'Jua'; font-size:1rem;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 3px 0 rgba(0,0,0,.2);
+}
+.tl-item h3{color:var(--forest-deep); font-size:1.08rem; margin-bottom:6px;}
+.tl-item p{color:var(--ink-soft); font-size:.92rem;}
+.tl-item .tags{margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;}
+.tl-item .tags span{
+  font-size:.72rem; font-weight:700; background:var(--cream-deep); color:var(--forest-deep);
+  padding:3px 10px; border-radius:999px;
+}
+
+/* facilities accordion */
+.facility{
+  background:var(--paper); border-radius:20px; margin-bottom:14px;
+  border:2.5px solid var(--forest-deep); overflow:hidden;
+}
+.facility summary{
+  list-style:none; cursor:pointer; padding:18px 22px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-family:'Jua'; font-size:1.08rem; color:var(--forest-deep);
+}
+.facility summary::-webkit-details-marker{display:none;}
+.facility summary::after{
+  content:"▾"; color:var(--leaf); font-size:1.1rem; transition:.2s;
+}
+.facility[open] summary::after{transform:rotate(180deg);}
+.facility summary .tagpill{
+  font-family:'Nunito'; font-weight:700; font-size:.7rem; color:#fff;
+  background:var(--leaf); padding:3px 10px; border-radius:999px; margin-left:10px;
+}
+.facility-body{padding:0 22px 22px;}
+.facility-body .sub{margin-bottom:16px;}
+.facility-body .sub:last-child{margin-bottom:0;}
+.facility-body .sub h4{color:var(--forest); font-size:.95rem; margin-bottom:6px;}
+.facility-body .sub ul{padding-left:20px; color:var(--ink-soft); font-size:.9rem;}
+.facility-body .sub ul li{margin-bottom:4px;}
+
+/* villagers */
+.trait-grid{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:26px;}
+.trait{
+  font-family:'Nunito'; font-weight:700; font-size:.85rem;
+  padding:9px 16px; border-radius:14px; color:#fff;
+  box-shadow:0 4px 0 rgba(0,0,0,.15);
+}
+.t0{background:var(--sun);} .t1{background:var(--pink);} .t2{background:var(--sky);}
+.t3{background:var(--leaf);} .t4{background:#9B7EDE;} .t5{background:#E0654B;}
+
+.villager-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:14px;}
+.villager{
+  background:var(--paper); border:2px solid var(--cream-deep); border-radius:16px;
+  padding:16px 10px; text-align:center; transition:.2s;
+}
+.villager:hover{border-color:var(--pink); transform:scale(1.04);}
+.villager .paw{font-size:1.3rem;}
+.villager .name{font-family:'Jua'; font-size:.95rem; color:var(--forest-deep); margin-top:4px;}
+
+footer{
+  position:relative; z-index:1;
+  text-align:center; padding:44px 20px 56px; color:var(--ink-soft); font-size:.85rem;
+}
+footer .jua{color:var(--forest); font-size:1.1rem; display:block; margin-bottom:6px;}
+
+@media (max-width:760px){
+  .world-grid{grid-template-columns:1fr;}
+  .island-art{max-width:220px; margin:0 auto;}
+  .sys-grid{grid-template-columns:1fr;}
+  .navtabs button{font-size:.76rem; padding:7px 10px;}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="wrap">
+    <div class="brand"><span class="leafdot"></span>리달의 숲</div>
+    <div class="navtabs" id="navtabs">
+      <button data-t="world">섬 이야기</button>
+      <button data-t="role">나의 역할</button>
+      <button data-t="system">기본 시스템</button>
+      <button data-t="activities">즐길거리</button>
+      <button data-t="roadmap">성장 로드맵</button>
+      <button data-t="facility">주요 시설</button>
+      <button data-t="villagers">주민들</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <span class="badge">ANIMAL CROSSING MOTIF · SLICE OF LIFE</span>
+  <h1>모여봐요 리달의 숲</h1>
+  <div class="blocks">
+    <span class="b1">리</span><span class="b2">달</span><span class="b3">의</span><span class="b4">숲</span>
+  </div>
+  <p class="tag">Ridal Inc. 무인도 이주 패키지를 타고 도착한 나만의 섬.<br>느긋한 하루하루를 채우며, 텐트 한 채로 시작해 마을을 일궈나가는 힐링 라이프.</p>
+</header>
+
+<svg class="cloud-divider" viewBox="0 0 1200 46" preserveAspectRatio="none">
+  <path d="M0,20 Q30,0 60,20 T120,20 T180,20 T240,20 T300,20 T360,20 T420,20 T480,20 T540,20 T600,20 T660,20 T720,20 T780,20 T840,20 T900,20 T960,20 T1020,20 T1080,20 T1140,20 T1200,20 L1200,46 L0,46 Z" fill="#1F5C3A" opacity="0.08"/>
+</svg>
+
+<!-- 섬 이야기 -->
+<section id="world" class="wrap">
+  <div class="section-head">
+    <div class="eyebrow">World & Atmosphere</div>
+    <h2>섬 이야기</h2>
+  </div>
+  <div class="world-grid">
+    <div class="card">
+      <p><strong>테마.</strong> 아기자기하고 느긋한 힐링 시뮬레이션. 섬 곳곳에 자연이 살아 숨 쉬고, 시간이 지나면 다 함께 성장한다.</p>
+      <p><strong>배경.</strong> 맑은 바다에 둘러싸인 손 닿지 않은 무인도. Ridal Inc.의 무인도 이주 패키지를 통해 이곳에 첫발을 내딛는다.</p>
+      <p><strong>분위기.</strong> 위협적인 요소나 심각한 갈등이 없는 평화로운 세계. 중심 테마는 일상, 휴식, 그리고 함께 만들어가는 공동체.</p>
+    </div>
+    <div class="island-art"></div>
+  </div>
+</section>
+
+<!-- 나의 역할 -->
+<section id="role" class="wrap">
+  <div class="section-head">
+    <div class="eyebrow">Resident Representative</div>
+    <h2>나의 역할 — 섬의 대표</h2>
+  </div>
+  <div class="cert">
+    <div class="seal">정식<br>위촉</div>
+    <h3>섬의 유일한 인간 주민</h3>
+    <p>Ridal Inc.가 발급한 정식 위촉장으로 임명된 이 섬의 대표. 시설 위치, 다리·경사로 배치, 새 주민 이주 승인까지 — 섬 개발에 관한 결정권을 형식적으로 위임받는다.</p>
+    <ul>
+      <li>동물 주민들은 대표를 자연스럽게 존중하지만, 격식은 없다. 편한 이웃처럼 말을 걸고 소소한 부탁을 건넨다.</li>
+      <li>재료를 구해달라거나 잃어버린 물건을 찾아달라는 심부름, 선물과 편지 — 관계는 이런 일상 속에서 쌓인다.</li>
+      <li>섬의 분위기(야생 그대로 두는 자연형, 깔끔한 도심형, 테마파크형 등)는 대표가 쌓아온 선택이 모여 자연스럽게 만들어진다.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 기본 시스템 -->
+<section id="system" class="wrap">
+  <div class="section-head">
+    <div class="eyebrow">Core System</div>
+    <h2>기본 시스템</h2>
+  </div>
+  <div class="sys-grid">
+    <div class="sys-card sc1">
+      <h3>💰 재화</h3>
+      <p><strong>벨</strong>은 일상적인 거래에 쓰이는 기본 화폐. <strong>너굴 마일</strong>은 특별한 활동을 통해 모으는 보상으로, 마일 전용 아이템이나 여행권으로 교환할 수 있다.</p>
+    </div>
+    <div class="sys-card sc2">
+      <h3>🌤️ 시간과 날씨</h3>
+      <p>아침·낮·저녁·밤이 실시간으로 흘러가고, 계절과 날씨가 바뀌며 섬 풍경과 주민들의 하루도 함께 달라진다.</p>
+    </div>
+    <div class="sys-card sc3">
+      <h3>🏗️ 섬의 성장</h3>
+      <p>텐트 몇 개뿐이던 섬은 안내소, 상점, 박물관, 재봉소가 들어서며 번듯한 마을로 자란다. 그 중심엔 늘 섬의 대표가 있다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 즐길거리 -->
+<section id="activities" class="wrap">
+  <div class="section-head">
+    <div class="eyebrow">Things To Do</div>
+    <h2>즐길거리</h2>
+  </div>
+  <div class="act-grid">
+    <div class="act-card"><span class="emo">🎣</span><h3>낚시</h3><p>강·바다·연못마다 사는 물고기가 다르고, 시간과 계절에 따라 만날 수 있는 어종도 달라진다.</p></div>
+    <div class="act-card"><span class="emo">🦋</span><h3>곤충 채집</h3><p>땅, 나무, 꽃, 바위 — 장소와 시간대에 맞춰 다른 곤충이 나타난다.</p></div>
+    <div class="act-card"><span class="emo">🦴</span><h3>화석 발굴</h3><p>땅 위 흔들리는 흙자국을 삽으로 캐내고, 박물관 큐레이터에게 감정을 맡길 수 있다.</p></div>
+    <div class="act-card"><span class="emo">🌷</span><h3>원예</h3><p>꽃을 교배해 새로운 색을 만들고, 나무를 심고 옮기며 텃밭도 가꾼다.</p></div>
+    <div class="act-card"><span class="emo">🪵</span><h3>채집</h3><p>나무를 흔들어 과일과 나뭇가지를, 돌을 캐 철광석과 점토를 얻는다.</p></div>
+    <div class="act-card"><span class="emo">🔨</span><h3>DIY 제작</h3><p>모은 재료로 작업대에서 가구와 도구를 만든다. 레시피는 주민이나 편지, 풍선 선물로 얻는다.</p></div>
+  </div>
+</section>
+
+<!-- 성장 로드맵 -->
+<section id="roadmap" class="wrap">
+  <div class="section-head">
+    <div class="eyebrow">Island Growth</div>
+    <h2>섬 성장 로드맵</h2>
+  </div>
+  <div class="timeline">
+    <div class="tl-item" data-n="1">
+      <h3>이주 초기 — 텐트 생활</h3>
+      <p>거처도 안내소도 아직 텐트뿐. 섬 이름을 짓고, 첫 텐트 자리를 고르고, 초기 주민 2~3명과 인사를 나눈다.</p>
+      <div class="tags"><span>기본 도구를 마일로 교환</span><span>너굴이 직접 매입/판매</span></div>
+    </div>
+    <div class="tl-item" data-n="2">
+      <h3>정착 — 안내소 개장 & 집 마련</h3>
+      <p>안내소가 정식 건물로 문을 열고, 대출을 받아 텐트에서 첫 정식 집으로 이사한다. 너굴상점도 독립 건물로 승격되고, 새 주민들이 이주해 온다.</p>
+    </div>
+    <div class="tl-item" data-n="3">
+      <h3>확장 — 다리·경사로·시설 건설</h3>
+      <p>다리와 경사로가 놓이며 섬 곳곳을 자유롭게 오갈 수 있게 된다. 박물관이 문을 열고, 집도 한 차례 증축된다. 친해진 주민과는 개인적인 이벤트가 시작된다.</p>
+    </div>
+    <div class="tl-item" data-n="4">
+      <h3>번영 — 마을 정체성 형성</h3>
+      <p>너굴상점이 패션 아이템까지 취급하는 너굴스토어로 확장되고, 재봉틀이나 카페 같은 특수 시설이 들어설 수 있다. 섬 평가가 오르며 새 이주 요청도 늘어난다.</p>
+    </div>
+    <div class="tl-item" data-n="5">
+      <h3>완성기 — 자유로운 후반부</h3>
+      <p>집은 지하실까지 완전히 증축되고, 섬 테마를 자유롭게 꾸며나간다. 주민들과의 관계도 깊어져 일상 대화를 넘어선 이야기가 오간다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 주요 시설 -->
+<section id="facility" class="wrap">
+  <div class="section-head">
+    <div class="eyebrow">Facilities</div>
+    <h2>주요 시설</h2>
+  </div>
+
+  <details class="facility" open>
+    <summary>🏛️ 안내소<span class="tagpill">마을회관</span></summary>
+    <div class="facility-body">
+      <div class="sub"><h4>너굴의 업무</h4>
+        <ul>
+          <li>마이홈 상담 — 집을 짓거나 방을 넓히는 증축 상담. 대출이 함께 발생한다.</li>
+          <li>인프라 정비 — 다리·경사로 건설 의뢰.</li>
+          <li>건물 이전 — 집이나 상점, 박물관 위치를 옮기고 싶을 때 수수료를 내고 재배치.</li>
+        </ul>
+      </div>
+      <div class="sub"><h4>여울의 업무</h4>
+        <ul>
+          <li>섬 평가 — 현재 섬의 별점을 알려주고, 올릴 수 있는 구체적인 방법을 조언한다. 별 3개를 달성하면 K.K.가 섬을 찾아온다.</li>
+          <li>주민 상담 — 마음에 들지 않는 주민의 말버릇이나 복장을 초기화.</li>
+          <li>마을 환경 설정 — 마을 깃발과 마을 멜로디 변경.</li>
+        </ul>
+      </div>
+      <div class="sub"><h4>너굴포트 & ATM</h4>
+        <ul>
+          <li>너굴 마일리지를 여행권, 특별 DIY 레시피, 마일 전용 가구로 교환. 매일 접속하면 출석 보너스도 쌓인다.</li>
+          <li>벨 예금·출금, 대출금 상환은 모두 ATM에서.</li>
+        </ul>
+      </div>
+      <div class="sub"><h4>광장 & K.K. 라이브</h4>
+        <ul>
+          <li>안내소 앞 광장은 주민들이 모여 체조를 하거나 바비큐를 즐기는 곳.</li>
+          <li>밤이나 주말 저녁이면 뮤지션 K.K.가 찾아와 기타를 연주한다. 신청곡을 들려주면 공연이 끝난 뒤 음반을 선물로 받을 수 있다.</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <details class="facility">
+    <summary>🛒 너굴상점<span class="tagpill">거래</span></summary>
+    <div class="facility-body">
+      <div class="sub"><h4>운영</h4>
+        <ul>
+          <li>너굴의 조카인 콩돌이(차분하고 사무적)와 밤돌이(살짝 덜렁대는 애교)가 교대로 운영한다.</li>
+          <li>물고기, 곤충, 과일, 화석, 잡초를 팔아 벨을 얻고, 도구·DIY 레시피·꽃씨·매일 바뀌는 가구 2종을 구매할 수 있다.</li>
+        </ul>
+      </div>
+      <div class="sub"><h4>발전 단계</h4>
+        <ul>
+          <li>텐트 단계 — 너굴이 직접 소규모로 매입·판매를 대행. 취급 품목이 적다.</li>
+          <li>너굴상점 — 독립 건물로 승격, 콩돌이·밤돌이 상주. 품목이 크게 늘어난다.</li>
+          <li>너굴스토어 — 옷·가방 등 패션 아이템까지 취급 범위가 넓어진다.</li>
+        </ul>
+      </div>
+      <div class="sub"><h4>영업 시간</h4>
+        <ul>
+          <li>매일 오전 8시부터 밤 10시까지. 영업 종료 후엔 매입함에 물건을 넣어두면 다음 날 정가의 80%로 자동 매입된다.</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+
+  <details class="facility">
+    <summary>🏠 마이홈<span class="tagpill">나의 거처</span></summary>
+    <div class="facility-body">
+      <div class="sub"><h4>대출 & 증축</h4>
+        <ul>
+          <li>텐트 → 첫 정식 집(원룸) → 방 추가 → 2층 증축 → 지하실 포함 완전 증축, 총 5단계.</li>
+          <li>기존 대출을 갚아야 다음 증축을 진행할 수 있다.</li>
+        </ul>
+      </div>
+      <div class="sub"><h4>인테리어</h4>
+        <ul>
+          <li>가구·벽지·바닥재를 자유롭게 배치. 마일 전용 가구는 너굴포트에서 교환해 반입한다.</li>
+        </ul>
+      </div>
+      <div class="sub"><h4>우체통</h4>
+        <ul>
+          <li>주민들이 호감도와 이벤트 진행에 따라 편지와 선물을 보내오고, 직접 답장과 선물을 보낼 수도 있다.</li>
+          <li>너굴쇼핑에서 주문한 물건도 다음 날 우체통을 통해 배송된다.</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+</section>
+
+<!-- 주민들 -->
+<section id="villagers" class="wrap">
+  <div class="section-head">
+    <div class="eyebrow">Villagers</div>
+    <h2>주민들</h2>
+  </div>
+  <p style="margin-bottom:18px; color:var(--ink-soft);">섬에는 저마다 다른 성격의 동물 주민들이 살아간다. 같은 부탁이라도 성격에 따라 말투와 태도가 다르게 다가온다.</p>
+  <div class="trait-grid">
+    <span class="trait t0">나른한 타입</span>
+    <span class="trait t1">씩씩한 타입</span>
+    <span class="trait t2">발랄한 타입</span>
+    <span class="trait t3">평범한 타입</span>
+    <span class="trait t4">까칠한 타입</span>
+    <span class="trait t5">새침한 타입</span>
+  </div>
+  <p style="margin-bottom:14px; color:var(--ink-soft); font-size:.92rem;">이주 초기, 섬에서 처음 만나게 될 주민은 아래 열 명 중 한 명으로 정해진다.</p>
+  <div class="villager-grid">
+    <div class="villager"><span class="paw">🐾</span><div class="name">미첼</div></div>
+    <div class="villager"><span class="paw">🐾</span><div class="name">요비</div></div>
+    <div class="villager"><span class="paw">🐾</span><div class="name">쭈니</div></div>
+    <div class="villager"><span class="paw">🐾</span><div class="name">잭슨</div></div>
+    <div class="villager"><span class="paw">🐾</span><div class="name">시베리아</div></div>
+    <div class="villager"><span class="paw">🐾</span><div class="name">스피카</div></div>
+    <div class="villager"><span class="paw">🐾</span><div class="name">미애</div></div>
+    <div class="villager"><span class="paw">🐾</span><div class="name">애플</div></div>
+    <div class="villager"><span class="paw">🐾</span><div class="name">뽀야미</div></div>
+    <div class="villager"><span class="paw">🐾</span><div class="name">사이다</div></div>
+  </div>
+</section>
+
+<footer>
+  <span class="jua">🌳 리달의 숲</span>
+  섬의 이야기는 대표가 내리는 선택을 따라, 오늘도 조금씩 자라난다.
+</footer>
+
+<script>
+const tabs = document.querySelectorAll('.navtabs button');
+const sections = [...tabs].map(t => document.getElementById(t.dataset.t));
+
+tabs.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.getElementById(btn.dataset.t).scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      tabs.forEach(t=>t.classList.remove('active'));
+      const idx = sections.indexOf(e.target);
+      if(idx>-1) tabs[idx].classList.add('active');
+    }
+  });
+}, {rootMargin:"-45% 0px -50% 0px", threshold:0});
+
+sections.forEach(s=> s && obs.observe(s));
+</script>
+
+</body>
+</html>
